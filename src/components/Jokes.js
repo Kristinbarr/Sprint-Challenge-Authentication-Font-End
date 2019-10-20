@@ -1,28 +1,44 @@
 import React, { useContext, useState, useEffect } from 'react'
-import axios from 'axios'
 // import JokeContext from '../contexts/JokeContext'
 
-import AxiosWithAuth from "../utillities/axiosWithAuth";
-// easier to use this utility when axios.post the data so I can see the added friends
+import AxiosWithAuth from '../utillities/axiosWithAuth'
 
 // Components
 import Joke from './Joke'
 
-const Products = () => {
+const Products = ({ history }) => {
   // const { jokes } = useContext(JokeContext)
-
-  const [jokes, setJokes] = useState([])
+  const [jokes, setJokes] = useState('')
 
   useEffect(() => {
-
-    axios.get('http://localhost:3300/api/jokes')
-  })
+    AxiosWithAuth()
+      .get('http://localhost:3300/api/jokes')
+      .then((response) => {
+        setJokes(response.data)
+      })
+      .catch((e) => {
+        console.log('error:', e)
+        localStorage.removeItem('token')
+        history.push('/login')
+      })
+  }, [history])
 
   return (
     <div className='products-container'>
-      {/* {jokes.map((joke) => (
-        <Joke key={joke.id} product={joke} />
-      ))} */}
+      {jokes.length > 0 ? (
+        jokes.map((joke) => <Joke key={joke.id} singlejoke={joke} />)
+      ) : (
+        <h1>Cannot get jokes</h1>
+      )}
+      <button
+        className='btn'
+        onClick={() => {
+          localStorage.removeItem('token')
+          history.push('/login')
+        }}
+      >
+        Logout
+      </button>
     </div>
   )
 }
