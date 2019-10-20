@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { Route } from 'react-router-dom'
+// import logo from './logo.svg';
+// import './App.css';
+
+import JokeContext from './contexts/JokeContext'
+
+import Navigation from './components/Navigation'
+import Jokes from './components/Jokes'
+import Signup from './components/Signup'
+import Login from './components/Login'
 
 function App() {
+  const [jokes] = useState()
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <JokeContext.Provider value={{ jokes }}>
+        <Navigation />
+        <Route exact path='/' component={Jokes} />
+        <Route path='/auth/register' component={Signup} />
+        <Route path='/auth/login' component={Login} />
+      </JokeContext.Provider>
     </div>
   );
 }
