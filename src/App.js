@@ -17,9 +17,9 @@ function App() {
     <div className="App">
       <JokeContext.Provider value={{ jokes }}>
         <Navigation />
-        <Route exact path='/' component={Jokes} />
-        <Route path='/auth/register' component={Signup} />
-        <Route path='/auth/login' component={Login} />
+        <Route path='/jokes' component={Jokes} />
+        <Route path='/register' component={Signup} />
+        <Route path='/login' component={Login} />
       </JokeContext.Provider>
     </div>
   );
