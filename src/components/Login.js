@@ -6,6 +6,7 @@ import axios from "axios";
 function Login({ touched, errors }) {
   return (
     <Form className="form">
+      <h1>LOGIN</h1>
       <div className="form-group">
         <label className="label">UserName: </label>
         <Field
@@ -46,21 +47,14 @@ export default withFormik({
   }),
   handleSubmit(values, formikBag) {
     const url = "http://localhost:3300/api/auth/login";
-    const token = ''
     axios
       .post(url, values)
       .then(res => {
-        // localStorage.setItem("token", res.data.payload);
-        token = res.data.token
+        localStorage.setItem("token", res.data.token);
         formikBag.props.history.push("/jokes");
       })
-      .then()
       .catch(e => {
         console.log(e.response);
       });
   }
 })(Login);
-
-{
-  /* POST REQ TO SERVER */
-}

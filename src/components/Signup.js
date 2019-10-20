@@ -6,6 +6,7 @@ import axios from "axios";
 function Signup({ touched, errors }) {
   return (
     <Form className="form">
+      <h1>SIGN UP</h1>
       <div className="form-group">
         <label className="label">UserName: </label>
         <Field
@@ -41,7 +42,7 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     username: Yup.string().required(),
     password: Yup.string()
-      .min(6)
+      .min(4)
       .required()
   }),
   handleSubmit(values, formikBag) {
@@ -49,15 +50,11 @@ export default withFormik({
     axios
       .post(url, values)
       .then(res => {
-        // localStorage.setItem("token", res.data.payload);
-        formikBag.props.history.push("/api/auth/login");
+        localStorage.setItem("token", res.data.password);
+        formikBag.props.history.push("/login");
       })
       .catch(e => {
         console.log(e.response);
       });
   }
 })(Signup);
-
-{
-  /* POST REQ TO SERVER */
-}
